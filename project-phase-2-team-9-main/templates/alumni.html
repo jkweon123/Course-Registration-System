@@ -1,0 +1,290 @@
+<html lang="en-us">
+
+<head>
+    <title>Student Info: {{student['fname']}} {{student['lname']}}</title>
+
+    <!-- Bootstrap Code -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+
+    <!-- Project Files -->
+    <link rel="stylesheet" type="text/css" href="/static/base.css">
+    <link rel="stylesheet" type="text/css" href="/static/graduating.css">
+
+
+    <!-- Font Imports -->
+    <link href='https://fonts.googleapis.com/css?family=Cinzel' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=PT Serif Caption' rel='stylesheet'>
+</head>
+
+
+<body>
+    <!--Navbar code-->
+    <header>
+        <nav class="navbar navbar-expand-md" id="nav">
+            <!-- Edit this to inlclude logo link -->
+            <a class="navbar-brand" href="/">Logo</a>
+
+            <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <!-- Collapsable navbar for buttons -->
+            <div class="collapse navbar-collapse" id="main-navigation">
+                <ul class="navbar-nav">
+
+                    <!-- All items on the navbar -->
+                    <!-- Change links to other webpages -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('home')}}">Home</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/catalog">Catalog</a>
+                    </li>
+
+                    {% if 'type' in session %}
+                        {% if "Student" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{url_for('register', id=session['id'])}}">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/student">Student</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class ="nav-link" href ="/form">Form 1</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href = "/writeThesis">Write Your Thesis</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Reviewer" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/reviewer">Reviewer</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Instructor" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/instructor">Instructor</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Advisor" in session["type"]%}
+                            <li class ="nav-item">
+                                <a class = "nav-link" href="/advisor">Advisor Page</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href="/viewForm">View Form 1</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Alumni" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/alumni">Alumnus</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "CAC" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/cac">CAC</a>
+                            </li>
+                        {% endif %}
+
+
+                        {% if "GS" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/grad_secretary">Grade Secretary</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/query">Query</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Admin" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">Administrator</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/create_account">Create Account</a>
+                            </li>
+                        {% endif %}
+                        
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header><br>
+
+    
+
+    <div class="container mb-5">
+
+        <div class="container">
+            {% for category, message in get_flashed_messages(with_categories=true) %}
+            <div class="alert alert-warning">
+                
+                {% if category == 'error'  %}
+                    <p class ="error"> {{ message }}</p>
+                {% elif category == 'success'  %}
+                    <p class ="success"> {{ message }}</p>
+                {%endif%}
+            </div>
+            {% endfor %}
+        </div>
+        <br>
+
+        <div class="container mb-5">
+            <div class="row">
+                <div class="col">
+                    <h2>Hello {{student['fname']}} {{student['lname']}}!</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <hr class="hr" />
+                </div>
+            </div>
+            
+
+            <div class="row">
+                <div class="col-4">
+                    <h6><small>Welcome to the alumnus page of the university. Here you can accessyour previous trancripts.</small></h6>
+                </div>
+            </div>
+        </div>
+
+
+
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-info-tab" data-bs-toggle="tab" data-bs-target="#nav-info" type="button" role="tab" aria-controls="nav-info" aria-selected="true">Info</button>
+                <button class="nav-link" id="nav-schedule-tab" data-bs-toggle="tab" data-bs-target="#nav-schedule" type="button" role="tab" aria-controls="nav-schedule" aria-selected="false">Past Transcript</button>
+            </div>
+        </nav>
+
+
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+
+                <div class="container mt-3">
+                    <div class="row mb-2">
+                        <div class="col">
+                            <h3>Student Info</h3>
+                        </div>
+                    </div>
+                    <form class ="personal-form" action="/update_info" method="POST">
+            
+                    <div class="row">
+
+                        <div class="col-6">
+                            <div class="container border py-2 h-100">
+                                <h5><strong>University Info</strong></h5>
+                                <h6>University ID: {{student['uid']}}</h6>
+                                <h6>Program: {{student['program']}}</h6>
+                                <h6>Year Graduated: {{student['grad_sem']}} {{student['grad_year']}}</h6>
+                                <h6>GPA: {{student['GPA']}}</h6>
+                                <h6>User types:</h6>
+                                <p>{% for each_type in user_types %}
+                                        {{each_type['user_type']}}; 
+                                    {% endfor %}
+                                </p>
+                                <input type="hidden" name="uid" id="uid" value="{{student['uid']}}">
+                                <input type="hidden" name="origin" value="alumni">
+                                
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="container border py-2">
+                                <h5><strong>Personal Info</strong></h5>
+                                <h6>Full Name: <input name="fname" placeholder="{{student['fname']}}"/> <input name="lname" placeholder="{{student['lname']}} "/> </h6>
+                                <h6>Email: <input name="email" placeholder="{{student['email']}}"/></h6>
+                                <h6>Password: <input type="password" name="password" /></h6>
+                                <h6>Address: <input name="address" placeholder="{{student['address']}}"/></h6>
+                                <h6>SSN: <input type="password" name="ssn" /></h6>
+                                <input type="submit" class="btn btn-sm btn-outline-secondary"/>
+                                
+                            </div>
+                        </div>
+                    
+                    </div>
+                    </form>
+                </div>
+            </div>
+
+            
+            
+            <div class="tab-pane fade" id="nav-schedule" role="tabpanel" aria-labelledby="nav-schedule-tab">
+
+                <div class="container mt-3">
+                    <div class="row">
+                        <div class="col">
+                            <h3>Class Info</h3>
+                        </div>
+                    </div>
+
+
+                    {% for sem in semesters %}
+                    <div class="row">
+                        <div class="col">
+                            <div class="table-responsive-md">
+                                <table class="table caption-top table-striped table-bordered w-75">
+                      
+                                    <caption>{{sem['csem']}} {{sem['cyear']}}</caption>
+
+                                    <thead>
+                                        <tr>
+                                            <th class="col-1">Course Department</th>
+                                            <th class="col-1">Course Number</th>
+                                            <th class="col-4">Course Name</th>
+                                            <th class="col-1">Credits</th>
+                                            <th class="col-1">Day</th>
+                                            <th class="col-2">Time</th>
+                                            <th class="col-1">Grade</th>
+                                        </tr>
+                                    </thead>
+                                        
+                                    <tbody>
+                                        {% for row in schedule %}
+                                            {% if row['csem'] == sem['csem'] and row['cyear'] == sem['cyear'] %}
+                                                <tr>
+                                                    <td class="col-1">{{row['dname']}}</td>
+                                                    <td class="col-1">{{row['cnum']}}</td>
+                                                    <td class="col-4">{{row['title']}}</td>
+                                                    <td class="col-1">{{row['credits']}}</td>
+                                                    <td class="col-1">{{row['day']}}</td>
+                                                    <td class="col-2">{{row['class_time']}}</td>
+                                                    {% if row['grade'] %}
+                                                        <td class="col-1">{{row['grade']}}</td>
+                                                    {% else %}
+                                                        <td class="col-1">N/A</td>
+                                                    {% endif %}
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

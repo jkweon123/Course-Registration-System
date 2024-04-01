@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+}
+h1 {
+    text-align: center;
+    margin-top: 50px;
+}
+form {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+table {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 30px
+}
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color:  rgb(188, 173, 0);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+input[type="submit"]:hover {
+    background-color: rgb(188, 173, 0);
+}
+
+button[type="button"] {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color:  rgb(188, 173, 0);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+button[type="button"]:hover {
+    background-color: rgb(188, 173, 0);
+}

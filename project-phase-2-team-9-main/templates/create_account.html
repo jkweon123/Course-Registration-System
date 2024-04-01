@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create Account</title>
+
+    <!-- Bootstrap Code -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>                
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script defer type="text/javascript" src="{{ url_for('static', filename='create_account.js') }}"></script>
+
+    <!-- Project Files -->
+    <link rel="stylesheet" type="text/css" href="static/base.css">
+
+    <!-- Font Imports -->
+    <link href='https://fonts.googleapis.com/css?family=Cinzel' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=PT Serif Caption' rel='stylesheet'>
+</head>
+<body>
+
+    <!--Navbar code-->
+    <header>
+        <nav class="navbar navbar-expand-md" id="nav">
+            <!-- Edit this to inlclude logo link -->
+            <a class="navbar-brand" href="/">Logo</a>
+
+            <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <!-- Collapsable navbar for buttons -->
+            <div class="collapse navbar-collapse" id="main-navigation">
+                <ul class="navbar-nav">
+
+                    <!-- All items on the navbar -->
+                    <!-- Change links to other webpages -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('home')}}">Home</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/catalog">Catalog</a>
+                    </li>
+
+                    {% if 'type' in session %}
+                        {% if "Student" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{url_for('register', id=session['id'])}}">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/student">Student</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class ="nav-link" href ="/form">Form 1</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href = "/writeThesis">Write Your Thesis</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Reviewer" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/reviewer">Reviewer</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Instructor" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/instructor">Instructor</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Advisor" in session["type"]%}
+                            <li class ="nav-item">
+                                <a class = "nav-link" href="/advisor">Advisor Page</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href="/viewForm">View Form 1</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Alumni" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/alumni">Alumnus</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "CAC" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/cac">CAC</a>
+                            </li>
+                        {% endif %}
+
+
+                        {% if "GS" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/grad_secretary">Grade Secretary</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/query">Query</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Admin" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">Administrator</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/create_account">Create Account</a>
+                            </li>
+                        {% endif %}
+                        
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header><br>
+
+    <div class="container-fluid">
+    <div class="container mb-5">
+        <h2>Create Account</h2><br>
+
+        <h3>{{ error }}</h3>
+
+
+
+        <form action="/create_account" method="POST" id="form">
+        <div class="row">   
+            <div class="col-3 mx-auto">
+                <div class="text-center">
+                <p>Email <input type="text" name="email" id="email" required> </p>
+                <p>Password <input type="password" name="password" id="password" required></p>
+                <p>Firstname <input type="text" name="firstname" id="firstname" required></p>
+                <p>Lastname <input type="text" name="lastname" id="lastname" required></p>
+                </div>
+            </div>
+            <div class="col-3 mx-auto">
+                <div class="text-center">
+                <p>Address <input type="text" name="address" id="address" required></p>
+                <p>SSN <input type="text" name="ssn" id="ssn" required></p>
+                <p><input type="checkbox" name="is_type" value="is_type"> If you are an applicant</p>
+                <p>DEPARTMENT (FACULTY ONLY) <input type="text" name="department" id="department"></p>
+                </div>
+            </div> 
+            {% if 'type' in session and 'Admin' in session['type']  %}
+                <br>
+                <input type="checkbox" name="Admin" value="Admin"> {{ user_types[0] }} 
+                <input type="checkbox" name="Applicant" value="Applicant"> {{ user_types[1] }} 
+                <input type="checkbox" name="GS" value="GS"> {{ user_types[2] }} 
+                <input type="checkbox" name="CAC" value="CAC"> {{ user_types[3] }} 
+                <input type="checkbox" name="Reviewer" value="Reviewer"> {{ user_types[4] }} 
+                <input type="checkbox" name="Advisor" value="Advisor"> {{ user_types[5] }} 
+                <input type="checkbox" name="Student" value="Student"> {{ user_types[6] }} 
+                <input type="checkbox" name="Instructor" value="Instructor"> {{ user_types[7] }}  
+            {% endif %}  
+        </div>
+        <br>
+        <div class="text-center">
+            <input type="submit" name="submit"> 
+        </div>
+       
+        </form>
+    </div>
+    </div>
+
+    
+</body>
+</html>

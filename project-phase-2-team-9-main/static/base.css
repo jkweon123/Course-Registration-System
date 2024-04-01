@@ -1,0 +1,74 @@
+.error {
+    margin: 10px;
+    color: red;
+    font-size: 16px;
+}
+
+.success {
+    margin: 10px;
+    color: green;
+    font-size: 16px;
+}
+
+/* Navbar styling*/
+.navbar {
+    padding: 5px;
+    background: #A08135;
+}
+
+.nav-link,
+.navbar-brand {
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.nav-tabs {
+    background: #cdcac5;
+}
+
+.nav-link {
+    margin-right: 1em !important;
+}
+
+.nav-link:hover {
+    color: #242F40;
+}
+
+
+.navbar-collapse {
+    justify-content: flex-end;
+}
+
+.signup-form {
+    padding: 5px;
+}
+
+:root {
+    --purple: #735290;
+    --dark-purple: #363457;
+    --green: #98A886;
+    --beige: #C4A69D;
+    --yellow: #CCA43B;
+    --light-grey: #E5E5E5;
+    --dark-grey: #363636;
+    --white: #FFFFFF;
+    --blue: #284B63;
+    --dark-blue: #153243;
+}
+
+.login-form {
+    padding: 5px;
+}
+
+
+.center {
+    border: 5px solid;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    padding: 10px;
+}
+
+#thesis-essay {
+    padding: 10px;
+}

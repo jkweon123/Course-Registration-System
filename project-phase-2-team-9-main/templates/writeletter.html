@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writer Rec</title>
+</head>
+<body>
+    {% if msg %}
+        <h3>Your sent Email</h3>
+        {{ msg }} <br>
+        <a href="\logout"><h3>Logout</h3></a>
+    {% elif session['email'] == email %}
+        <h2>Write a recommendation letter for: {{ name['lname'] }}, {{ name['fname'] }}</h2>
+        <form action="/writeletter" method="POST">
+            Message<input type="text" name="lettermsg">
+            <input type="submit" name="submit">
+        </form>
+    {% else %}
+        <h1>Login</h1>
+        <form action="/" method="POST">
+            Email <input type="text" name="email"> 
+        <input type="submit" name="submit"> 
+        <br> <a href="\">back to login</a>
+    {% endif %}
+</body>
+</html>

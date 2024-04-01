@@ -1,0 +1,45 @@
+.registration-page {
+  border: 3px solid #fff;
+  padding: 10px;
+  position: absolute;
+  overflow: hidden;
+
+}
+
+.checkout-btn {
+  width: 30%; /* Set the width of each box to 50% */
+  height: 50%; /* Set the height of each box to 50% */
+  float: left; /* Float each box to the left */
+  padding: 10px;
+  text-align: right;
+  border: 2px white;
+}
+
+
+.search-filter {
+  width: 30%; /* Set the width of each box to 50% */
+  height: 50%; /* Set the height of each box to 50% */
+  float: left; /* Float each box to the left */
+  padding: 10px;
+  border: 2px white;
+}
+
+.container .box {
+  display:table;
+}
+
+.container .box .box-row {
+  display:table-row;
+}
+
+.container .box .box-cell {
+  display:table-cell;
+  width:33%;
+  padding:10px;
+  border: 2px solid burlywood;
+}
+
+.class-info {
+  padding: 10px;
+  border: 1px solid black;
+}

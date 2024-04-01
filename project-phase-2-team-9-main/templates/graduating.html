@@ -1,0 +1,112 @@
+<html>
+    <head>
+<style>
+     table {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #subtext {
+                font-size: small;
+                color: gray;
+            }
+            th, td {
+                padding: 5px;
+                text-align: left;
+            }
+            th {
+                background-color: rgb(220, 220, 220);
+            }
+      
+            tr:nth-child(even) {
+                background-color: rgb(240, 240, 240);
+            }
+    header{
+         background-color: rgb(173,209,112);
+         padding: 2px;
+        margin-bottom: 10px;
+     }
+ 
+     #Title{
+         text-align: center;
+   
+     }
+     #logo{
+         position: absolute;
+         left:30px;
+         top:15px;
+         height: 70px;
+         width: 70px;
+     }
+
+     #message{
+        text-align: center;
+     }
+     #graduate_button{
+        text-align: center;
+        margin-top: 20px;
+     }
+     #graduate_button a {
+    background-color: green;
+    color: black;
+    width: auto;
+    height: 20px;
+    text-decoration: none;
+    font-size: large;
+    padding: 10px 20px;
+    border-radius: 5px;
+
+}
+
+#graduate_button a:hover {
+    background-color: #4CAF50;
+    color: white;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+</style>
+    </head>
+    <body>
+        <header>
+
+            <a href="/"> <img id="logo" src="static\University Logo.png">  </a>
+            <h1 id="Title">Student Records and Registration</h1>
+            
+
+        </header>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Grade</th>
+                    <th>Credits</th>
+                    <th>Semester-Year</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for grade in courses %}
+                    <tr>
+                        <td>{{grade['title']}}
+                            <span id="subtext">
+                            {{grade['dname']}} {{grade['cnum']}}
+                            </span>
+                        </td>
+                        <td>{{grade['grade']}}</td>
+                        <td>{{grade['credits']}}</td>
+                        <td>{{grade['csem']}}-{{grade['cyear']}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+          
+            {% for message in messages %}
+                <div id="message">{{ message }}</div><br/>
+            {% endfor %}
+    
+            {% endif %}
+        {% endwith %}
+        
+        <div id="graduate_button"> <a href="/apply2grad">Apply to Graduate</a></div>
+    </body>
+</html>

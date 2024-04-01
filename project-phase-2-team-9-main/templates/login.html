@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login</title>
+
+    <!-- Bootstrap Code -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    
+      <!-- Project Files -->
+      <link rel="stylesheet" type="text/css" href="static/base.css">
+
+</head>
+
+<body>
+    <!--Navbar code-->
+    <header>
+        <nav class="navbar navbar-expand-md" id="nav">
+            <!-- Edit this to inlclude logo link -->
+            <a class="navbar-brand" href="/">Logo</a>
+
+            <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <!-- Collapsable navbar for buttons -->
+            <div class="collapse navbar-collapse" id="main-navigation">
+                <ul class="navbar-nav">
+
+                    <!-- All items on the navbar -->
+                    <!-- Change links to other webpages -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('home')}}">Home</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/catalog">Catalog</a>
+                    </li>
+
+                    {% if 'type' in session %}
+                        {% if "Student" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{url_for('register', id=session['id'])}}">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/student">Student</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class ="nav-link" href ="/form">Form 1</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href = "/writeThesis">Write Your Thesis</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Reviewer" in session['type'] %}
+                            <li class = "nav-item">
+                                <a class = "nav-link" href = "/reviewer">Reviewer</a>
+                            </li>
+                            <form action="/search" method="POST">
+                                <input id="searchBox" type="text" name="searchInfo">
+                                <input id="searchButton" type="submit" value="Search">
+                            </form>
+                            <form action="/application" method="POST">
+                            {% for a in app %}
+                                <button name="reviewapp" value="{{ a['uid'] }}"> Review &nbsp;{{ a['uid'] }} </button>
+
+                            {% endfor %}
+                            </form>
+                        {% endif %}
+
+                        {% if "Instructor" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/instructor">Instructor</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Advisor" in session["type"]%}
+                            <li class ="nav-item">
+                                <a class = "nav-link" href="/advisor">Advisor Page</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href="/viewForm">View Form 1</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Alumni" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/alumni">Alumnus</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "CAC" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/cac">CAC</a>
+                            </li>
+                        {% endif %}
+
+
+                        {% if "GS" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/grad_secretary">Grade Secretary</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/query">Query</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Admin" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">Administrator</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/create_account">Create Account</a>
+                            </li>
+                        {% endif %}
+                        
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header><br>
+    
+    <div class="container-fluid"  class="center">
+    <div class="container">
+    <div class="text-center">
+    
+        <h4>Login</h4><br>
+
+        <div class="container">
+            {% for category, message in get_flashed_messages(with_categories=true) %}
+            <div class="alert alert-warning">
+                {% if category == 'error'  %}
+                <p class ="error"> {{ message }}</p>
+                {% elif category == 'success'  %}
+                <p class ="success"> {{ message }}</p>
+                {%endif%}
+            </div>
+            {% endfor %}
+        </div>
+
+
+        <form action="/" method="POST">
+            Email <input type="text" name="email" required> 
+            Password <input type="password" name="password" > 
+            <input type="submit" name="submitlog"> 
+        
+        </form><br><br>
+
+        <p>Don't have an account? Create one!<p>
+        <h4><a href="create_account">Create Account</a></h4>
+    </div>
+    </div>
+    </div>
+
+</body>
+</html>

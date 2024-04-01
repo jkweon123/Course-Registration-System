@@ -1,0 +1,174 @@
+<html lang="en-us">
+
+<head>
+    <title>Reports</title>
+
+    <!-- Bootstrap Code -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+
+    <!-- Project Files -->
+    <link rel="stylesheet" type="text/css" href="/static/base.css">
+    <link rel="stylesheet" type="text/css" href="/static/graduating.css">
+
+
+    <!-- Font Imports -->
+    <link href='https://fonts.googleapis.com/css?family=Cinzel' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=PT Serif Caption' rel='stylesheet'>
+</head>
+
+
+<body>
+    <!--Navbar code-->
+    <header>
+        <nav class="navbar navbar-expand-md" id="nav">
+            <!-- Edit this to inlclude logo link -->
+            <a class="navbar-brand" href="/">Logo</a>
+
+            <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <!-- Collapsable navbar for buttons -->
+            <div class="collapse navbar-collapse" id="main-navigation">
+                <ul class="navbar-nav">
+
+                    <!-- All items on the navbar -->
+                    <!-- Change links to other webpages -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('home')}}">Home</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/catalog">Catalog</a>
+                    </li>
+
+                    {% if 'type' in session %}
+                        {% if "Student" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{url_for('register', id=session['id'])}}">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/student">Student</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class ="nav-link" href ="/form">Form 1</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href = "/writeThesis">Write Your Thesis</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Reviewer" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/reviewer">Reviewer</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Instructor" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/instructor">Instructor</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Advisor" in session["type"]%}
+                            <li class ="nav-item">
+                                <a class = "nav-link" href="/advisor">Advisor Page</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href="/viewForm">View Form 1</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Alumni" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/alumni">Alumnus</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "CAC" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/cac">CAC</a>
+                            </li>
+                        {% endif %}
+
+
+                        {% if "GS" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/grad_secretary">Grade Secretary</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/query">Query</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Admin" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">Administrator</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/create_account">Create Account</a>
+                            </li>
+                        {% endif %}
+                        
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header><br>
+    
+    <div class="container-fluid">
+    <div class="container">
+        <form action="\query" method="POST">
+            <h6>Can only query by year or degree or semester! </h6><br>
+
+            <input type="text" placeholder="year" name="year"/>
+            <input type="text" placeholder="degree" name="degree"/>
+            <input type="text" placeholder="semester" name="semester"/>
+            <input type="submit" value="submit"/>
+            <br><br><br>
+            {% if type_of_query %} 
+                <h6>Query for {{ type_of_query }}</h6> <br>
+            {% endif %}
+            {% if total_applicants_stat %}
+                Total Applicants: {{ total_applicants_stat['total_applicants']}} <br>
+            {% endif %}
+            {% if admit_total_stat %}
+                Total Admitted Students: {{ admit_total_stat['admit_total']}} <br>
+            {% endif %}
+            {% if reject_total_stat %}
+                Total Rejected Students: {{ reject_total_stat['reject_total']}} <br>
+            {% endif %}
+            {% if gre_stat %} 
+                Average GRE score of admitted students: {{ gre_stat['gre_total'] }} <br>
+            {% endif %}
+            <br>
+            {% if data %}
+                <br>
+                <h6>Graduate Applicants: </h6>
+                {% for a in data %} 
+                    <li><a href="/view_apps/{{ a['uid'] }}"> {{ a['lname'] }}  {{a['fname'] }}</a><br></li>                
+                {% endfor %}
+            {% endif %}
+        
+            {% if admitted_data %} 
+                <br>
+                <h6>Admitted students: </h6>
+                {% for a in admitted_data %} 
+                    <li><a href="/view_apps/{{ a['uid'] }}"> {{ a['lname'] }}  {{a['fname'] }}</a><br></li>
+                {% endfor %} 
+
+            {% endif %}
+
+        </form>
+    </div>
+    </div>
+</body>
+</html>

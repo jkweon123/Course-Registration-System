@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>Instructor Page</title>
+
+    <!-- Bootstrap Code -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+
+    <!-- Project Files -->
+    <link rel="stylesheet" type="text/css" href="static/variables.css">
+    <link rel="stylesheet" type="text/css" href="static/base.css">
+
+
+    <!-- Font Imports -->
+    <link href='https://fonts.googleapis.com/css?family=Cinzel' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=PT Serif Caption' rel='stylesheet'>
+</head>
+
+
+<body>
+    <!--Navbar code-->
+    <header>
+        <nav class="navbar navbar-expand-md" id="nav">
+            <!-- Edit this to inlclude logo link -->
+            <a class="navbar-brand" href="/">Logo</a>
+
+            <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <!-- Collapsable navbar for buttons -->
+            <div class="collapse navbar-collapse" id="main-navigation">
+                <ul class="navbar-nav">
+
+                    <!-- All items on the navbar -->
+                    <!-- Change links to other webpages -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('home')}}">Home</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/catalog">Catalog</a>
+                    </li>
+
+                    {% if 'type' in session %}
+                        {% if "Student" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{url_for('register', id=session['id'])}}">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/student">Student</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class ="nav-link" href ="/form">Form 1</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href = "/writeThesis">Write Your Thesis</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Reviewer" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/reviewer">Reviewer</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Instructor" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/instructor">Instructor</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Advisor" in session["type"]%}
+                            <li class ="nav-item">
+                                <a class = "nav-link" href="/advisor">Advisor Page</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href="/viewForm">View Form 1</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Alumni" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/alumni">Alumnus</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "CAC" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/cac">CAC</a>
+                            </li>
+                        {% endif %}
+
+
+                        {% if "GS" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/grad_secretary">Grade Secretary</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/query">Query</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Admin" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">Administrator</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/create_account">Create Account</a>
+                            </li>
+                        {% endif %}
+                        
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header><br>
+
+    <div class="container-fluid">
+        <h2>Instructor Page</h2>
+    </div>
+
+    <div class="container">
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-warning">
+            {% if category == 'error'  %}
+                <p class ="error"> {{ message }}</p>
+            {% elif category == 'success'  %}
+                <p class ="success"> {{ message }}</p>
+            {%endif%}
+        </div>
+        {% endfor %}
+    </div>
+
+    <br>
+
+
+    <div class="container mb-5">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-faculty-tab" data-bs-toggle="tab" data-bs-target="#nav-faculty" type="button" role="tab" aria-controls="nav-faculty" aria-selected="true">Personal Info</button>
+                <button class="nav-link" id="nav-student-tab" data-bs-toggle="tab" data-bs-target="#nav-student" type="button" role="tab" aria-controls="nav-student" aria-selected="false">Classes Taught</button>
+            </div>
+        </nav><br>
+
+        <div class="tab-content" id="nav-tabContent">
+            <!--Personal Information Tab-->
+            <div class="tab-pane fade show active" id="nav-faculty" role="tabpanel" aria-labelledby="nav-faculty-tab">
+                <div class="container-fluid">
+                    <h2>Account Information</h2><br>
+        
+                    <div class="container">
+                        
+                        <form class ="personal-form" action="/update_info" method="POST">
+                        <div class="row">
+                            <div class="col-6">
+                                <h5><strong>University Info</strong></h5>
+                                <h6>University ID: {{faculty['uid']}}</h6>
+                                <h6>Department: <input type="text" name="department" placeholder="{{faculty['department']}}"/></h6>
+                                <h6>Password: <input type="password" name="password" /></h6>
+                                <h6>User types:</h6>
+                                <p>{% for each_type in user_types %}
+                                        {{each_type['user_type']}}; 
+                                    {% endfor %}
+                                </p>
+                                <input type="hidden" name="user_id" id="user_id" value="{{faculty['uid']}}">
+                            </div>
+
+                            <div class="col-6">
+                                <h5><strong>Personal Info</strong></h5>
+                                <h6>Full Name: <input name="fname" placeholder="{{faculty['fname']}}"/> <input name="lname" placeholder="{{faculty['lname']}} "/> </h6>
+                                <h6>Email: <input name="email" placeholder="{{faculty['email']}}"/></h6>
+                                <h6>Address: <input name="address" placeholder="{{faculty['address']}}"/></h6>
+                                <h6>SSN: <input type="password" name="ssn" /></h6>
+                                <input type="submit" class="btn btn-sm btn-outline-secondary"/>
+                            </div>
+                        </div>
+                        </form>
+                        
+                    </div>
+                </div><br>
+            </div>
+    
+
+            <!--Student Tab-->
+            <div class="tab-pane fade" id="nav-student" role="tabpanel" aria-labelledby="nav-student-tab">
+
+                <!--Search for courses-->
+                <div class="container-fluid">
+                    <div class ="container">
+                        <form class="signup-form" action="/instructor" method = "POST">
+                        <div class="row">
+                            <div class="col">
+                            <div class ="container">
+                                <input type="text" placeholder="Department Name" name="dname"><br><br>
+                                <input type="text" placeholder="Course Number" name="cnum">
+                            </div>
+                            </div>
+                            <div class="col-5">
+                            <div class ="container">
+                                <input type="hidden" name="origin" value="instructor">
+                                <button>Search</button>
+                            </div>
+                            </div>
+                            <div class="col">
+                            <div class ="container">
+                                <input type="text" placeholder="Course Title" name="title">
+                                <input type="text" placeholder="Class ID" name="cid">
+                            </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div><br><br>
+
+
+                <h3>Taught Classes:</h3>
+                {% for sem in semesters %}
+                    <div class="container-fluid border py-2">
+                        <h4>{{sem['csem']}} {{sem['cyear']}}</h4>
+                        {% for row1 in course %}
+                            {% if row1['csem'] == sem['csem'] and row1['cyear'] == sem['cyear'] %}
+                            <h5>{{row1['title']}} ({{row1['dname']}} {{row1['cnum']}})</h5>
+                            <div class="container-fluid my-4">
+                                <h6>Students:</h6>
+                                {% if not student[row1['cid']] %}
+                                    No students enrolled
+                                {% else %}
+                                    <div class="container-fluid border w-50 mx-0">
+                                        {% for row2 in student[row1['cid']] %}
+                                            {% if row2['csem'] == sem['csem'] and row2['cyear'] == sem['cyear'] %}
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <p>Name: {{row2['fname']}} {{row2['lname']}}</p>
+                                                    <p>ID: {{row2['uid']}}</p>
+                                                    <p>Email: {{row2['email']}}</p>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p>Final Grade:</p>
+                                                    {% if not row2['grade'] %}
+                                                        <p>IP</p>
+                                                        <form action="/update_grade" method="POST">
+                                                            <label for="grade">Grade</label>
+                                                            <select name="grade" id="grade">
+                                                                <option value="A">A</option>
+                                                                <option value="A-">A-</option>
+                                                                <option value="B+">B+</option>
+                                                                <option value="B">B</option>
+                                                                <option value="B-">B-</option>
+                                                                <option value="C+">C+</option>
+                                                                <option value="C">C</option>
+                                                                <option value="F">F</option>
+                                                            </select>
+                                                            <input type="hidden" name="stud_id" id="student" value="{{row2['uid']}}">
+                                                            <input type="hidden" name="class" id="class" value="{{row1['cid']}}">
+                                                            <input type="hidden" name="csem" id="csem" value="{{row1['csem']}}">
+                                                            <input type="hidden" name="cyear" id="cyear" value="{{row1['cyear']}}">
+                                                            <input type="hidden" name="origin" value="instructor">
+                                                            <input type="submit" class="btn btn-sm btn-outline-secondary">
+
+                                                        </form>
+                                                    {% else %}
+                                                        <p>{{row2['grade']}}</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% endif %} 
+                        {% endfor %}
+
+
+                    </div>
+                {% endfor %}
+
+                
+            </div>
+
+                <!--Applicant Tab-->
+
+
+                <!--Other Tabs-->
+                
+        </div>
+
+
+    </div>
+
+
+
+
+    <!-- <div class="container-fluid">
+        
+        
+    </div> -->
+
+
+</body>
+
+</html>

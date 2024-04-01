@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Admin Page</title>
+
+    <!-- Bootstrap Code -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+
+    <!-- Project Files -->
+    <link rel="stylesheet" type="text/css" href="static/admin.css">
+    <link rel="stylesheet" type="text/css" href="static\base.css">
+    <link rel="stylesheet" type="text/css" href="static/variables.css">
+
+
+    <!-- Font Imports -->
+    <link href='https://fonts.googleapis.com/css?family=Cinzel' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=PT Serif Caption' rel='stylesheet'>
+</head>
+
+
+<body>
+
+    <!--Navbar code-->
+    <header>
+        <nav class="navbar navbar-expand-md" id="nav">
+            <!-- Edit this to inlclude logo link -->
+            <a class="navbar-brand" href="/">Logo</a>
+
+            <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <!-- Collapsable navbar for buttons -->
+            <div class="collapse navbar-collapse" id="main-navigation">
+                <ul class="navbar-nav">
+
+                    <!-- All items on the navbar -->
+                    <!-- Change links to other webpages -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('home')}}">Home</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/catalog">Catalog</a>
+                    </li>
+
+                    {% if 'type' in session %}
+                        {% if "Student" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{url_for('register', id=session['id'])}}">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/student">Student</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class ="nav-link" href ="/form">Form 1</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href = "/writeThesis">Write Your Thesis</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Reviewer" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/reviewer">Reviewer</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Instructor" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/instructor">Instructor</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Advisor" in session["type"]%}
+                            <li class ="nav-item">
+                                <a class = "nav-link" href="/advisor">Advisor Page</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href="/viewForm">View Form 1</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Alumni" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/alumni">Alumnus</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "CAC" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/cac">CAC</a>
+                            </li>
+                        {% endif %}
+
+
+                        {% if "GS" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/grad_secretary">Grade Secretary</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/query">Query</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Admin" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">Administrator</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/create_account">Create Account</a>
+                            </li>
+                        {% endif %}
+                        
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header><br>
+    
+
+    <div class="container-fluid">
+        <h2>Admininistrator Page</h2>
+    </div>
+
+    <div class="container">
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-warning">
+            {% if category == 'error'  %}
+                <p class ="error"> {{ message }}</p>
+            {% elif category == 'success'  %}
+                <p class ="success"> {{ message }}</p>
+            {%endif%}
+        </div>
+        {% endfor %}
+    </div>
+
+    <br>
+
+
+    
+    <div class="container mb-5">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-info-tab" data-bs-toggle="tab" data-bs-target="#nav-info" type="button" role="tab" aria-controls="nav-info" aria-selected="true">Personal Information</button>
+                {% for key,user_type in user_dict.items() %}
+                    <button class="nav-link" id="{{key}}-tab" data-bs-toggle="tab" data-bs-target="#{{key}}" type="button" role="tab" aria-controls="{{key}}" aria-selected="false">{{key}}</button>
+                {% endfor %}
+                <button class="nav-link" id="nav-form-tab" data-bs-toggle="tab" data-bs-target="#nav-form" type="button" role="tab" aria-controls="nav-form" aria-selected="true">View Form 1</button>
+            </div>
+        </nav>
+
+        <div class="tab-content" id="nav-tabContent">
+
+            <!-- Personal Information-->
+            <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+                <div class="container-fluid">
+                    <h2>Personal Information</h2><br>
+        
+                    <div class="container">
+                        
+                        <form class ="personal-form" action="/update_info" method="POST">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="container border py-2">
+                                <h5><strong>University Info</strong></h5>
+                                <h6>University ID: {{admin_info['uid']}}</h6>
+                                <h6>Password: <input type="password" name="password" /></h6>
+                                <h6>Remove user privileges:
+                                <select id="type_list" name="type_list">
+                                    {% for each_type in user_types[admin_info['uid']] %}
+                                        <option value="{{each_type['user_type']}}">{{each_type['user_type']}}</option>
+                                    {% endfor %}
+                                </select>
+                                <input type="checkbox" name="remove_type" value="remove">
+                                </h6>
+                                <h6>Add user types: <input name="add_type"/></h6></h6>
+                                <input type="hidden" name="uid" id="uid" value="{{admin_info['uid']}}">
+                                <input type="hidden" name="origin" value="admin">
+                            </div>
+                            </div>  
+
+                            <div class="col-6">
+                            <div class="container border py-2">
+                                <h5><strong>Personal Info</strong></h5>
+                                <h6>Full Name: <input name="fname" placeholder="{{admin_info['fname']}}"/> <input name="lname" placeholder="{{admin_info['lname']}} "/> </h6>
+                                <h6>Email: <input name="email" placeholder="{{admin_info['email']}}"/></h6>
+                                <h6>Address: <input name="address" placeholder="{{admin_info['address']}}"/></h6>
+                                <h6>SSN: <input type="password" name="ssn" /></h6>
+                                <input type="submit" class="btn btn-sm btn-outline-secondary"/>
+                            </div>
+                            </div>
+                        </div>
+                        </form>
+                        
+                    </div>
+                </div><br>
+            </div>
+
+
+            <!--Each user tab-->
+            {% for key,user_type in user_dict.items() %}
+
+                {% if key == 'Student' %}
+                    
+                    <!--Student Tab-->
+                    <div class="tab-pane fade" id="{{key}}" role="tabpanel" aria-labelledby="{{key}}-tab">
+
+                        <div class="container-fluid">
+                            <h3>Student Info</h3><br>
+                        </div>
+                        
+                        <!--Search for student-->
+                        <div class="container-fluid">
+                        <div class ="container border py-2"><br>
+                            <form class="signup-form" action="/admin" method = "POST">
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text" placeholder="First Name" name="fname"><br><br>
+                                    <input type="text" placeholder="Last Name" name="lname">
+                                    <input type="hidden" name="origin" value="student-tab">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" placeholder="User ID" name="uid"><br><br>
+                                    <button>Search</button>
+                                </div>
+                            </div>
+                            </form><br>
+                        </div>
+                        </div><br><br>
+
+                        {% for student in user_type %}
+                        <div class="container-fluid">
+                            <h4><i>{{student['fname']}} {{student['lname']}}</i></h4>
+                
+                            <div class="container">
+                                <div class="row">
+                                    
+                                    <form class ="personal-form" action="/update_info" method="POST">
+                                    <div class="row">
+
+                                    
+                                        <div class="col-6">   
+                                        <div class="container border py-2">
+                                            
+                                            <h5><strong>University Info</strong></h6>
+                                            <h6>University ID: {{student['uid']}}</h6>
+                                            
+                                            <h6>Remove user privileges:
+
+                                            <select id="type_list" name="type_list">
+                                                {% for each_type in user_types[student['uid']] %}
+                                                    <option value="{{each_type['user_type']}}">{{each_type['user_type']}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <input type="checkbox" name="remove_type" value="remove">
+                                            </h6>
+                                            <h6>Add user types: <input name="add_type"/></h6></h6>
+
+
+                        
+
+                                            <h6>Program: {{student['program']}}</h6>
+                                            
+                                            <h6>Ready to Graduate:
+                                                {%if student['rdygrad'] == 0%}
+                                                    No
+                                                {%else%}
+                                                    Yes
+                                                {%endif%}
+                                            </h6>
+                                            <h6>GPA: {{student['GPA']}}</h6>
+                                            <input type="hidden" name="uid" id="uid" value="{{student['uid']}}">
+                                            <input type="hidden" name="origin" value="admin">
+                                        </div>
+                                        </div>
+        
+                                        <div class="col-6">
+                                        <div class="container border py-2">
+                                            <h5><strong>Personal Info</strong></h5>
+                                            <h6>Full Name: <input name="fname" placeholder="{{student['fname']}}"/> <input name="lname" placeholder="{{student['lname']}} "/> </h6>
+                                            <h6>Email: <input name="email" placeholder="{{student['email']}}"/></h6>
+                                            <h6>Password: <input type="password" name="password" /></h6>
+                                            <h6>Address: <input name="address" placeholder="{{student['address']}}"/></h6>
+                                            <h6>SSN: <input type="password" name="ssn" /></h6>
+                                            
+                                            <input type="submit" class="btn btn-sm btn-outline-secondary"/>
+                                        
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </form>
+
+                                        <div class="col-6">
+                                        <div class="container border py-2">
+                                        <form action="/assign" method="POST">
+                                            <h6>Advisor: {{advisors[student['uid']]['fname']}} {{advisors[student['uid']]['lname']}}</h6>
+                                            <input type="number" name="field_advId" placeholder="Input Advisor's ID">
+                                            <input type="hidden" name="field_stuId"  value="{{student['uid']}}">
+                                            <input type="submit" value="Assign Advisor">
+                                        </form>
+                                        </div>
+                                        </div>
+
+                                </div>
+                            </div>
+                        </div><br>
+                
+                        <div class="container-fluid">
+                            <h5>Class Info</h5>
+                            {% for sem in semesters[student['uid']] %}
+                            <div class="table-responsive">
+                                <table class="table caption-top table-striped table-bordered w-75">
+                                    <caption>{{sem['csem']}} {{sem['cyear']}}</caption>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Course Department</th>
+                                            <th scope="col">Course Number</th>
+                                            <th scope="col">Course Name</th>
+                                            <th scope="col">Credits</th>
+                                            <th scope="col">Day</th>
+                                            <th scope="col">Time</th>
+                                            <th scope="col">Grade</th>
+                                        </tr>
+                                    </thead>
+                                        
+                                    <tbody>
+                                        {% for class in classes[student['uid']] %}
+                                            {% if class['csem'] == sem['csem'] and class['cyear'] == sem['cyear'] %}
+                                            <tr>
+                                                <td>{{class['dname']}}</td>
+                                                <td>{{class['cnum']}}</td>
+                                                <td>{{class['title']}}</td>
+                                                <td>{{class['credits']}}</td>
+                                                <td>{{class['day']}}</td>
+                                                <td>{{class['class_time']}}</td>
+                                                
+                                                <td>
+                                                    {% if class['grade'] %}
+                                                        <p>{{class['grade']}}</p>
+                                                    {% elif not class['grade'] %} 
+                                                        <p>IP</p>
+                                                    {% endif %}
+                                                    <form action="/update_grade" method="POST">
+                                                        <label for="grade">Grade</label>
+                                                        <select name="grade" id="grade">
+                                                            <option value="A">A</option>
+                                                            <option value="A-">A-</option>
+                                                            <option value="B+">B+</option>
+                                                            <option value="B">B</option>
+                                                            <option value="B-">B-</option>
+                                                            <option value="C+">C+</option>
+                                                            <option value="C">C</option>
+                                                            <option value="F">F</option>
+                                                        </select>
+                                                        <input type="hidden" name="stud_id" id="student" value="{{student['uid']}}">
+                                                        <input type="hidden" name="class" id="class" value="{{class['cid']}}">
+                                                        <input type="hidden" name="csem" id="csem" value="{{class['csem']}}">
+                                                        <input type="hidden" name="cyear" id="cyear" value="{{class['cyear']}}">
+                                                        <input type="hidden" name="origin" value="grad_secretary">
+                                                        <input type="submit" class="btn btn-sm btn-outline-secondary">
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% endfor %}
+                        </div><br>
+                        {% endfor %}
+                    </div>
+
+            
+                {%else%}
+
+                    <div class="tab-pane fade" id="{{key}}" role="tabpanel" aria-labelledby="{{key}}-tab">
+                    {% for user in user_type %}
+                        <div class="container-fluid">
+                            <h3>{{user['fname']}} {{user['lname']}}</h3>
+                            <form class="signup-form" action="/update_info" method = "POST">
+
+                            <div class="container">
+                            
+                                <div class="row">
+
+                                    <div class="col-6">
+                                    <div class="container border py-2">
+                                        <h5><strong>University Info</strong></h5>
+                                        <h6>University ID: {{user['uid']}}</h6>
+                                        {% if key == 'Instructor' %}
+                                        <h6>Department: <input type="text" name="department" placeholder="{{user['department']}}"/></h6>
+                                        {%endif%}
+                                        <h6>Password: <input type="password" name="password" /></h6>
+                                        <h6>Remove user privileges:
+                                        <select id="type_list" name="type_list">
+                                            {% for each_type in user_types[user['uid']] %}
+                                                <option value="{{each_type['user_type']}}">{{each_type['user_type']}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <input type="checkbox" name="remove_type" value="remove">
+                                        </h6>
+                                        <h6>Add user types: <input name="add_type"/></h6>
+                                        <input type="hidden" name="uid" id="uid" value="{{user['uid']}}">
+                                            <input type="hidden" name="origin" value="admin">
+                                    </div>
+                                    </div>  
+    
+                                    <div class="col-6">
+                                    <div class="container border py-2">
+                                        <h5><strong>Personal Info</strong></h5>
+                                        <h6>Full Name: <input name="fname" placeholder="{{user['fname']}}"/> <input name="lname" placeholder="{{user['lname']}} "/> </h6>
+                                        <h6>Email: <input name="email" placeholder="{{user['email']}}"/></h6>
+                                        <h6>Address: <input name="address" placeholder="{{user['address']}}"/></h6>
+                                        <h6>SSN: <input type="password" name="ssn" /></h6>
+                                        <input type="submit" class="btn btn-sm btn-outline-secondary"/>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+
+                        </div><br><br><br>  
+                    {% endfor %}
+                    </div>
+                {%endif%}
+            {% endfor %}
+            <div class="tab-pane fade" id="nav-form" role="tabpanel" aria-labelledby="nav-form-tab">
+                <div class="container-fluid">
+                    <div class="container-fluid">
+                        <div class="container">
+                            <br>
+                            <a href="{{url_for('adminGSViewForm')}}">
+                                <button class="btn btn-warning" type="button">Show Form 1</button>
+                            </a>
+                        </div>
+                    </div>
+                </div><br>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html> 

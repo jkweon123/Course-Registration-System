@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>application</title>
+
+    <!-- Bootstrap Code -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    
+      <!-- Project Files -->
+      <link rel="stylesheet" type="text/css" href="static/base.css">
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md" id="nav">
+            <!-- Edit this to inlclude logo link -->
+            <a class="navbar-brand" href="/">Logo</a>
+
+            <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <!-- Collapsable navbar for buttons -->
+            <div class="collapse navbar-collapse" id="main-navigation">
+                <ul class="navbar-nav">
+
+                    <!-- All items on the navbar -->
+                    <!-- Change links to other webpages -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('home')}}">Home</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="/catalog">Catalog</a>
+                    </li>
+
+                    {% if 'type' in session %}
+                        {% if "Student" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{url_for('register', id=session['id'])}}">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/student">Student</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class ="nav-link" href ="/form">Form 1</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href = "/graduating">Apply to Graduate</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href = "/writeThesis">Write Your Thesis</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Reviewer" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/reviewer">Reviewer</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Instructor" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/instructor">Instructor</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Advisor" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/advisor">Advisor</a>
+                            </li>
+                            <li class ="nav-item">
+                                <a class = "nav-link" href="/viewAdvisedStudent">View Advised Student</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href="/thesis">View Student's Thesis</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Alumni" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/alumni">Alumnus</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "CAC" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/cac">CAC</a>
+                            </li>
+                        {% endif %}
+
+
+                        {% if "GS" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/grad_secretary">Grade Secretary</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class = "nav-link" href="/assign">Assign Advisor</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/query">Query</a>
+                            </li>
+                            <li class = "nav-item">
+                                <a class="nav-link" href="/gsViewAdvisee">View Advisees</a>
+                            </li>
+                        {% endif %}
+
+                        {% if "Admin" in session["type"]%}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">Administrator</a>
+                            </li>
+                        {% endif %}
+
+                        {% if 'Applicant' in session["type"] %} 
+                            <li class="nav-item">
+                                <a class="nav-link" href="/application">Applicant</a>
+                            </li>
+                        {% endif %}
+                        
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <h2>{{ error }}</h2>
+    {% if form == 'create' %}
+    <h3>Create Application</h3>
+    Name: {{ data['lname'] }} , {{ data['fname'] }}
+    <br>
+    UID: {{ data['uid'] }}
+    <br>
+    <form action="/thankyou" id="fapp" method="POST">
+        Semester and Year of Application 
+        <select name="semester" id="semester" required>
+            <option value="spring" selected>Spring</option>
+            <option value="fall">Fall</option>
+        </select>
+        <select name="year" id="year" required>
+            <option value="{{ year }}" selected>{{ year }}</option>
+            <option value="{{ year+1 }}">{{ year+1 }}</option>
+        </select>
+        <br>
+        Applying for Degree:
+        <select name="degree" id="degree" required>
+            <option value="MS" selected>MS</option>
+            <option value="PhD">PhD</option>
+        </select>
+        <br>
+        Summary of Credentials
+        GRE Total Score: <input type="text" name="total" id="total"> <br>
+        <br> Verbal: <input type="text" id="verbal" name="verbal"> Quantitative: <input type="text" id="quant" name="quant"> <br>
+        Year of Exam: <input type="text" id="yearexam" name="yearexam"> <br>
+        GRE Advanced <br>
+        Score: <input type="text" id="score" name="score"> Subject <input type="text" id="subject" name="subject"> <br>
+        TOEFL: <input type="text" id="toefl" name="toefl"> Date of Exam: <input type="text" id="dateexam" name="dateexam"> <br>
+        <br> Prior Degrees <br>
+        MS <input type="checkbox" id="ms" name="ms" value="MS"> 
+        GPA: <input type="text" id="gpa" name="gpa"> 
+        Major: <input type="text" id="major" name="major">
+        Year: <input type="text" id="pdyear" name="pdyear">
+        University: <input type="text" id="university" name="university">
+        <br>
+        BS/BA <input type="checkbox" checked id="bsba" name="bsba" value="BS/BA" required> 
+        GPA: <input type="text" id="gpa2" name="gpa2" required> 
+        Major: <input type="text" id="major2" name="major2" required>
+        Year: <input type="text" id="pdyear2" name="pdyear2" required>
+        University: <input type="text" id="university2" name="university2" required>
+        <br>
+        Areas of Interest: <input type="text" id="aoi" name="aoi" required>
+        Work Experience: <input type="text" id="exp" name="exp" required> <br>
+        Letter of Recommenation: letter writer <input type="text" id="writer" name="writer" required>, 
+        their email: <input type="text" id="email" name="email" required>, their title <input type="text" id="title" name="title" required> 
+        and affiliation <input type="text" id="affiliation" name="affiliation" required> <br>
+        letter writer 2 <input type="text" id="write2" name="writer2" required>, 
+        their email: <input type="text" id="email2" name="email2" required>, their title <input type="text" id="title2" name="title2" required> 
+        and affiliation <input type="text" id="affiliation2" name="affiliation2" required> <br>
+        letter writer 3<input type="text" id="writer3" name="writer3" required>, 
+        their email: <input type="text" id="email3" name="email3" required>, their title <input type="text" id="title3" name="title3" required> 
+        and affiliation <input type="text" id="affiliation3" name="affiliation3" required> <br>
+        <input type="submit" name="submit"> 
+    </form>
+    {% elif form == 'view' %}
+    <h3>UID: {{ app['uid'] }}</h3>
+        {% if app['status'] == 'incomplete' %}
+            <h4><strong>Application Satus: Incomplete</strong></h4>
+        {% endif %}
+        {% if app['status'] == 'complete' %}
+            <h4><strong>Application Satus: Application Complete and Under Review/No Decision Yet </strong></h4>
+        {% endif %}
+        {% if app['status'] == 'admitted' %}
+            <h4><strong>Application Satus: Congratulations you have been admitted! The formal letter of acceptance will be mailed.</strong></h4></br>
+
+            <h6> Accept or Reject </h6>
+            <form action="/applicant_decision" method="POST">
+                <select name="accept_reject">
+                    {% for accept_reject in accept_rejects %}
+                        <option value="{{ accept_reject }}">{{ accept_reject }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" name="submit">
+            </form>
+        {% endif %}
+        {% if app['status'] == 'denied' %}
+            <h4><strong>Application Satus: Your application for admission has been denied.</strong></h4>
+        {% endif %}
+        <br>Semester and Year of Application: {{ app['semester'] }}, {{ app['year'] }}<br>
+        Degree: {{ app['degree'] }}<br>
+        {% if app['gre'] %}
+            GRE <br>
+            Total: {{ gre['total'] }}
+            Verbal: {{ gre['verbal'] }}
+            Quantitative: {{ gre['quant'] }}
+            Year of Exam: {{ gre['year'] }}
+            {% if gre['score'] %}
+            <br> GRE Advanced
+            Score: {{ gre['score'] }}
+            Subject: {{ gre['subject'] }}
+        {% endif %}
+            <br>
+            {% if gre['toefl'] %}
+            TOEFL: {{ gre['toefl'] }}
+            Year of Exam {{ gre['date'] }}
+            {% endif %}
+        {% endif %}
+        {% if app['transcript'] == 'T' %}
+            Transcript Received: Yes <br>
+        {% else %}
+            Transcript Received: No <br>
+        {% endif %}
+        {% if not rec[0]['message'] %}
+            Recommendation Letter from {{ rec[0]['writer'] }} not received. <br>
+        {% else %}
+            Recommendation Letter from {{ rec[0]['writer'] }} received. <br>
+        {% endif %}
+        {% if not rec[1]['message'] %}
+            Recommendation Letter from {{ rec[1]['writer'] }} not received. <br>
+        {% else %}
+            Recommendation Letter from {{ rec[1]['writer'] }} received. <br>
+        {% endif %}
+        {% if not rec[2]['message'] %}
+            Recommendation Letter from {{ rec[2]['writer'] }} not received. <br>
+        {% else %}
+            Recommendation Letter from {{ rec[2]['writer'] }} received. <br>
+        {% endif %}
+    {% elif form == 'sent' %} 
+        Email sent to: {{ email }} <br>
+        {{ msg }}
+    {% elif form == 'rec' %}
+        <h2>Send your recommender an email!</h2>
+        <form action="/letterwriter" id="lw" method="POST"> 
+            Name: <input type="text" id="lettername" name="lettername" required> Email: <input type="text" id="lettermail" name="lettermail" required> <br>
+            Message: <input type="text" id="lettermessage" name="lettermessage" required>
+            <input type="submit" name="submit"> 
+        </form>
+        <script type="text/javascript">         
+            const form2 = document.getElementById('lw')
+            form2.addEventListener('submit', (e) => {
+                const lettername = document.querySelector('#lettername').value
+                const lettermail = document.querySelector('#lettermail').value
+                const lettermessage = document.querySelector('#lettermessage').value
+                messages = []
+            
+                if (lettername.length > 30) {  
+                    messages.push('Name is too long (Max 30 characters)')
+                }
+                if (lettermail.length > 30 || !/^.+@.+$/.test(lettermail) || "{{ rec['email'] }}"  !== lettermail) {
+                    messages.push('Invalid email')
+                }
+                if (lettermessage.length > 200) {
+                    messages.push('Message is too long')
+                }
+                if ("{{ rec['writer'] }}" !== lettername) {
+                    messages.push('Name is incorrect')
+                }
+                if (messages.length > 0 ) {
+                    e.preventDefault()
+                    messages = messages.join('\n')
+                    alert(messages)
+                }
+            })
+        </script>
+         {% elif form == 'review' %}
+         {% if not error %}
+         <form class = "card p-3 bg-light" action="/review_application" method="POST" style="align-items: center">
+             <div>
+                 <div class="form-outline  mb-4">
+                     <h1 class="form-label">Review Application</h1>
+                 </div>
+                 <div class="form-inline">
+                     Name: &nbsp; {{ user['fname'] }} , {{ user['lname'] }}<br>
+                     Student Number: &nbsp; {{ user['ssn'] }}<br>
+                     Semester and Year of Application: {{ app['semester'] }} , {{ app['year'] }}<br>
+                     Applying for Degree: {{ app['degree'] }}
+                 </div>
+                 <div class="form-inline">
+                     <br>Summary of Credentials<br>
+                     GRE<br>
+                     Verbal: &nbsp;{{ gre['verbal'] }}   &nbsp;&nbsp; Quantitative: {{ gre['quant'] }} <br>
+                     Year of Exam: {{ gre['year'] }} <br>
+                     <br>GRE Advanced <br>
+                     Score: {{ gre['score'] }} &nbsp;&nbsp; Subject: {{ gre['subject'] }}<br>
+                     TOEFL: {{ gre['toefl'] }} &nbsp;&nbsp; Date of Exam: {{ gre['date'] }}
+                 </div>
+                 <div class="form-inline">
+                     Prior Degrees <br>
+                     {% for degree in degrees %}
+                     Type: {{ degree['type'] }}&#9;GPA:{{ degree['gpa'] }}&#9;Major:{{ degree['major'] }}&#9;Year:{{ degree['year'] }}&#9;University:{{ degree['college'] }}<br>
+                     {% endfor %}
+                 </div>
+                 <div class="form-inline">
+                     Areas of Interest: {{ app['aoi'] }}<br>
+                     Work Experience: {{ app['experience'] }}<br>
+                 </div>
+                 <div class="form-inline">
+                     Recommendation Letters Rating (Worst=1, Best =5)<br>
+                        1. &nbsp;
+                        Rating:&nbsp; <input type = "number" name = "rec_rating_1" min="1" max = "5"/> &#9;
+                        Generic: :&nbsp;
+                        <select name="rec_generic_1">
+                            <option value="y" selected>Y</option>
+                            <option value="n">N</option>
+                        </select>  &#9;
+                        Credible: <select name="rec_credible_1">
+                            <option value="y" selected>Y</option>
+                            <option value="n">N</option>
+                        </select>  &#9;
+                        From: {{ recs['writer'] }} <br>
+                        2. &nbsp;
+                        Rating:&nbsp; <input type = "number" name = "rec_rating_2"/> &#9;
+                        Generic: :&nbsp;
+                        <select name="rec_generic_2">
+                            <option value="y" selected>Y</option>
+                            <option value="n">N</option>
+                        </select>  &#9;
+                        Credible: <select name="rec_credible_2">
+                            <option value="y" selected>Y</option>
+                            <option value="n">N</option>
+                        </select>  &#9;
+                        From: {{ recs2['writer'] }} <br>
+                        3. &nbsp;
+                        Rating:&nbsp; <input type = "number" name = "rec_rating_3"/> &#9;
+                        Generic: :&nbsp;
+                        <select name="rec_generic_3">
+                            <option value="y" selected>Y</option>
+                            <option value="n">N</option>
+                        </select>  &#9;
+                        Credible: <select name="rec_credible_3">
+                            <option value="y" selected>Y</option>
+                            <option value="n">N</option>
+                        </select>  &#9;
+                        From: {{ recs3['writer'] }} <br>
+                       
+                 </div>
+                 <div class="form-inline">
+                     Grad Admissions Committee(GAS) Review Rating:
+                     <input type = "number" name = "review_rating" min="0" max = "3" /><br>
+                 </div>
+                 <div class="form-inline">
+                     0. Reject<br>
+                     1. Borderline Admit<br>
+                     2. Admit without Aid<br>
+                     3. Admit with Aid<br><br>
+                 </div>
+                 <div class="form-inline">
+                     Deficiency Course if Any:<input type = "text" name = "review_deficiency" maxlength="100"/><br>
+                 </div>
+                 <div class="form-inline">
+                     Reasons for Reject:
+                     <select name="review_reason">
+                         <option value="A" selected>A</option>
+                         <option value="B">B</option>
+                         <option value="C">C</option>
+                         <option value="D">D</option>
+                         <option value="E">E</option>
+                     </select><br>
+                     (A =Incomplete Record, B= Does not meet minimum Requirements,C= Problems with Letters, D= Not competitive, E= Other reasons)<br>
+                 </div>
+                 <div class="form-inline">
+                     GAS Reviewer Comments: <br>
+                     <input type = "text" name = "review_comments" maxlength = "40" />
+                 </div>
+                 <div class="form-inline">
+                     Recommendation Advisor (email):<input type = "text" name = "review_advisor" maxlength="30"/>
+                 </div>
+                 <input type="hidden" name="user_id" value="{{ app['uid'] }}">
+                 <input type="hidden" name="app_id" value="{{ app['appid'] }}">
+                 <input type="hidden" name="letterid" value="{{ app['letter'] }}">
+                 <input type="hidden" name="letter2id" value="{{ app['letter2'] }}">
+                 <input type="hidden" name="letter3id" value="{{ app['letter3'] }}">
+                 <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
+             </div>
+         </form>
+         {% else %}
+         {{ error }}
+         {% endif %}
+    {% endif %}
+    <br> <br> <a href="\home">homepage</a>
+</body>
+</html>
